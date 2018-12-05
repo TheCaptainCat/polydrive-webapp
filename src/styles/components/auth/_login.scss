@@ -1,15 +1,19 @@
-form {
-  width: 500px;
+.form-login {
+  max-width: 500px;
+  max-height: 262px;
   margin: auto;
   margin-top: 100px;
-  background-color: #aaa;
+  background-color: #fff;
   padding: 40px 10px;
+  border: 1px solid #b3b3b3;
+  padding-left: 30px;
+  padding-right: 30px;
 
-  input {
-    margin: auto;
-    margin-bottom: 20px;
-    display: block;
-    width: 70%;
+  position: absolute;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 
-  }
+  margin: auto;
 }
