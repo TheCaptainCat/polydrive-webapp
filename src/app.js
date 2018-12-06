@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route } from 'react-router-dom';
-import LoginForm from './components/LoginForm'
+import LoginPage from './components/LoginPage'
 import 'normalize.css/normalize.css';
 import './styles/styles.scss';
 
@@ -9,7 +9,7 @@ import './styles/styles.scss';
 const routes = (
   <BrowserRouter>
     <div>
-      <Route path="/" component={LoginForm} exact={true} />
+      <Route path="/" component={LoginPage} exact={true} />
     </div>
   </BrowserRouter>
 );
