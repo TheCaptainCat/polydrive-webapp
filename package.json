@@ -10,6 +10,9 @@
     "dev-server": "webpack-dev-server"
   },
   "dependencies": {
+    "@uppy/core": "^0.29.0",
+    "@uppy/react": "^0.29.0",
+    "@uppy/xhr-upload": "^0.29.0",
     "axios": "^0.18.0",
     "babel-cli": "6.24.1",
     "babel-core": "6.25.0",
@@ -20,11 +23,13 @@
     "css-loader": "0.28.4",
     "file-loader": "^2.0.0",
     "live-server": "^1.2.0",
+    "moment-timezone": "^0.5.23",
     "node-sass": "4.5.3",
     "normalize.css": "7.0.0",
     "react": "15.6.1",
     "react-dom": "15.6.1",
     "react-modal": "2.2.2",
+    "react-moment": "^0.8.4",
     "react-router-dom": "4.1.2",
     "resolve-url-loader": "^3.0.0",
     "sass-loader": "6.0.6",
