@@ -3,11 +3,10 @@ import Uppy from '@uppy/core';
 import XHRUpload from '@uppy/xhr-upload';
 import { DragDrop } from '@uppy/react';
 import { Table } from 'semantic-ui-react';
-import Moment from 'react-moment';
 import 'moment-timezone';
 import '../scripts/drag-drop';
-import FileIcon from './FileIcon';
 import Navbar from './Navbar';
+import TableRow from './TableRow';
 
 
 
@@ -81,22 +80,13 @@ export default class MainPage extends React.Component {
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                { this.state.files.map((item, i) => (
-                    <Table.Row key={i}>
-                      <Table.Cell><FileIcon type={item.type} mime={item.mime}></FileIcon></Table.Cell>
-                      <Table.Cell>{item.name}</Table.Cell>
-                      <Table.Cell>{item.extension}</Table.Cell>
-                      <Table.Cell>
-                        {
-                          item.versions && (
-                            <Moment format='DD/MM/YYYY'>
-                              {item.versions[0]['created']}
-                            </Moment>
-                          )
-                        }
-                      </Table.Cell>
-                    </Table.Row>
-                  ))
+                {
+                  this.state.files.map((item, i) => 
+                    <TableRow
+                      key={i}
+                      item={item}
+                    />
+                  )
                 }
                 </Table.Body>
               </Table>
