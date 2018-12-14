@@ -3,7 +3,7 @@ import LoginForm from './LoginForm';
 
 export default class LoginPage extends React.Component {
   handleHistoryChanges = () => {
-    this.props.history.push('/files');
+    this.props.history.push('/');
   };
 
   render() {

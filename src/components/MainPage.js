@@ -7,6 +7,7 @@ import Moment from 'react-moment';
 import 'moment-timezone';
 import '../scripts/drag-drop';
 import FileIcon from './FileIcon';
+import Navbar from './Navbar';
 
 
 
@@ -66,6 +67,7 @@ export default class MainPage extends React.Component {
   render() {
     return (
       <div className="main-page">
+        <Navbar />
         {
           this.state.files.length > 0 && (
             <div className="files-table">

@@ -6,8 +6,8 @@ import MainPage from '../components/MainPage';
 const AppRouter = () => (
   <BrowserRouter>
     <div>
-      <Route path="/" component={LoginPage} exact={true} />
-      <Route path="/files" component={MainPage} exact={true} />
+      <Route path="/login" component={LoginPage} exact={true} />
+      <Route path="/" component={MainPage} exact={true} />
     </div>
   </BrowserRouter>
 );
