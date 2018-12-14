@@ -5,6 +5,8 @@ import { DragDrop } from '@uppy/react';
 import { Table } from 'semantic-ui-react';
 import Moment from 'react-moment';
 import 'moment-timezone';
+import '../scripts/drag-drop';
+import FileIcon from './FileIcon';
 
 
 
@@ -14,7 +16,6 @@ export default class MainPage extends React.Component {
 
     const uppy = Uppy({
       meta: { type: 'avatar' },
-      restrictions: { maxNumberOfFiles: 1 },
       autoProceed: true
     })
     
@@ -53,10 +54,10 @@ export default class MainPage extends React.Component {
     .then(res => {
       let files = [];
       res.json().then((data) => {
+        console.log(data);
         data.content.forEach(element => {
           files.push(element);
         });
-        //console.log(files[0].version[0]['created']);
         this.setState(() => { return { files } });
       });
     })
@@ -64,25 +65,33 @@ export default class MainPage extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="main-page">
         {
           this.state.files.length > 0 && (
-            <div>
+            <div className="files-table">
               <Table singleLine>
                 <Table.Header>
                   <Table.Row>
+                    <Table.HeaderCell></Table.HeaderCell>
                     <Table.HeaderCell>Nom</Table.HeaderCell>
+                    <Table.HeaderCell>Extension</Table.HeaderCell>
                     <Table.HeaderCell>Dernière modification</Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>
                 { this.state.files.map((item, i) => (
                     <Table.Row key={i}>
+                      <Table.Cell><FileIcon type={item.type} mime={item.mime}></FileIcon></Table.Cell>
                       <Table.Cell>{item.name}</Table.Cell>
+                      <Table.Cell>{item.extension}</Table.Cell>
                       <Table.Cell>
-                        <Moment format='DD/MM/YYYY'>
-                          {item.version[0]['created']}
-                        </Moment>
+                        {
+                          item.versions && (
+                            <Moment format='DD/MM/YYYY'>
+                              {item.versions[0]['created']}
+                            </Moment>
+                          )
+                        }
                       </Table.Cell>
                     </Table.Row>
                   ))
@@ -92,7 +101,9 @@ export default class MainPage extends React.Component {
             </div>
           )
         }
-        <DragDrop uppy={this.state.uppy}></DragDrop>
+        <div id="drag-drop">
+          <DragDrop  uppy={this.state.uppy}></DragDrop>
+        </div>
       </div>
       
     );

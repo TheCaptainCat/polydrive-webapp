@@ -1,0 +1,32 @@
+.main-page {
+  .files-table {
+    margin: 50px;
+
+    .file-icon {
+      width: 40px;
+    }
+  }
+
+  #drag-drop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+
+    display: none;
+
+    &.visible {
+      display: initial;
+    }
+
+    & > div {
+      height: 100%;
+    }
+
+    .uppy-Root {
+      background-color: rgba(119, 196, 255, 0.1) !important;
+    }
+  }
+}
