@@ -1,13 +1,33 @@
 import React from 'react';
 
 export default class FileIcon extends React.Component {
-  constructor(props) {
+  constructor(props) {console.log('hgjkhgkj');
     super(props);
+    const iconFilePath = this.getIconFilePath(
+      this.props.type,
+      this.props.mime
+    );
+    this.state = {
+      iconFilePath
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const iconFilePath = this.getIconFilePath(
+      nextProps.type,
+      nextProps.mime
+    );
+    this.state = {
+      iconFilePath
+    }
+  }
+
+  getIconFilePath(type, mime) {
     let iconFilePath = 'images/file_icons/';
-    if (this.props.type == 'folder') {
+    if (type == 'folder') {
       iconFilePath += 'folder';
     } else {
-      switch (this.props.mime) {
+      switch (mime) {
         case 'image/jpeg':
         case 'image/png':
           iconFilePath += 'image';
@@ -25,10 +45,7 @@ export default class FileIcon extends React.Component {
           iconFilePath += 'unknown';
       }
     }
-    iconFilePath += '.svg';
-    this.state = {
-      iconFilePath
-    }
+    return iconFilePath + '.svg';
   }
 
   render() {

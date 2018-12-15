@@ -3,23 +3,35 @@ import Moment from 'react-moment';
 import FileIcon from './FileIcon';
 import { Table } from 'semantic-ui-react';
 
-const TableRow = (props) => (
-  <Table.Row key={props.index}>
-    <Table.Cell>
-      <FileIcon type={props.item.type} mime={props.item.mime}></FileIcon>
-    </Table.Cell>
-    <Table.Cell>{props.item.name}</Table.Cell>
-    <Table.Cell>{props.item.extension}</Table.Cell>
-    <Table.Cell>
-      {
-        props.item.versions && (
-          <Moment format='DD/MM/YYYY'>
-            {props.item.versions[0]['created']}
-          </Moment>
-        )
-      }
-    </Table.Cell>
-  </Table.Row>
-);
+export default class TableRow extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
-export default TableRow;
+  handleOnClick = () => {
+    if (this.props.item.type == 'folder') {
+      this.props.onClickFolder(this.props.item.id);
+    }
+  }
+
+  render() {
+    return (
+      <Table.Row key={this.props.index} className="file-table-row" onClick={this.handleOnClick}>
+        <Table.Cell>
+          <FileIcon type={this.props.item.type} mime={this.props.item.mime}></FileIcon>
+        </Table.Cell>
+        <Table.Cell>{this.props.item.name}</Table.Cell>
+        <Table.Cell>{this.props.item.extension}</Table.Cell>
+        <Table.Cell>
+          {
+            this.props.item.versions && (
+              <Moment format='DD/MM/YYYY'>
+                {this.props.item.versions[0]['created']}
+              </Moment>
+            )
+          }
+        </Table.Cell>
+      </Table.Row>
+    );
+  }
+}

@@ -5,6 +5,13 @@
     .file-icon {
       width: 40px;
     }
+
+    .file-table-row {
+      &:hover {
+        cursor: pointer;
+        background-color: rgba(82, 148, 226, 0.05);
+      }
+    }
   }
 
   #drag-drop {

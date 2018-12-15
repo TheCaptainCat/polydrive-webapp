@@ -31,7 +31,8 @@ export default class MainPage extends React.Component {
 
     this.state = {
       files: [],
-      uppy: uppy
+      uppy: uppy,
+      parent_id: ''
     }
   }
 
@@ -39,8 +40,8 @@ export default class MainPage extends React.Component {
     this.refreshData();
   }
 
-  refreshData = () => {
-    fetch('http://localhost:5000/folders', {
+  refreshData = (parent_id) => {
+    fetch('http://localhost:5000/folders' + (parent_id ? '/' + parent_id : ''), {
       mode: 'cors',
       method: 'GET',
       withCredentials: true,
@@ -61,6 +62,15 @@ export default class MainPage extends React.Component {
         this.setState(() => { return { files } });
       });
     })
+  }
+
+  handleOnClickFolder = (id) => {
+    this.setState(() => {
+      return {
+        parent_id: id
+      }
+    });
+    this.refreshData(id);
   }
 
   render() {
@@ -85,6 +95,7 @@ export default class MainPage extends React.Component {
                     <TableRow
                       key={i}
                       item={item}
+                      onClickFolder={this.handleOnClickFolder}
                     />
                   )
                 }
@@ -97,7 +108,6 @@ export default class MainPage extends React.Component {
           <DragDrop  uppy={this.state.uppy}></DragDrop>
         </div>
       </div>
-      
     );
   }
 }
