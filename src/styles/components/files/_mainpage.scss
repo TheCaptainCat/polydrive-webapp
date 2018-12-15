@@ -1,6 +1,15 @@
 .main-page {
+  padding: 92px 50px;
+
+  #folders-breadcrumb {
+    .active.section {
+      color: black;
+      cursor: default;
+    }
+  }
+
   .files-table {
-    padding: 92px 50px;
+    margin-top: 10px;
 
     .file-icon {
       width: 40px;

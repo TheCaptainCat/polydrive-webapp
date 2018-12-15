@@ -7,6 +7,8 @@ import 'moment-timezone';
 import '../scripts/drag-drop';
 import Navbar from './Navbar';
 import TableRow from './TableRow';
+import FoldersBreadcrumb from './FoldersBreadcrumb';
+import BreadcrumbSection from '../scripts/BreadcrumbSection'
 
 
 
@@ -32,7 +34,8 @@ export default class MainPage extends React.Component {
     this.state = {
       files: [],
       uppy: uppy,
-      parent_id: ''
+      parent_id: '',
+      breadcrumbSections: new BreadcrumbSection()
     }
   }
 
@@ -40,8 +43,8 @@ export default class MainPage extends React.Component {
     this.refreshData();
   }
 
-  refreshData = (parent_id) => {
-    fetch('http://localhost:5000/folders' + (parent_id ? '/' + parent_id : ''), {
+  refreshData = () => {
+    fetch('http://localhost:5000/folders' + (this.state.breadcrumbSections.getLastId() != 0 ? '/' + this.state.breadcrumbSections.getLastId() : ''), {
       mode: 'cors',
       method: 'GET',
       withCredentials: true,
@@ -64,19 +67,25 @@ export default class MainPage extends React.Component {
     })
   }
 
-  handleOnClickFolder = (id) => {
-    this.setState(() => {
-      return {
-        parent_id: id
-      }
-    });
+  handleOnClickFolder = (id, name) => {
+    this.state.breadcrumbSections.addSection(id, name);
     this.refreshData(id);
+  }
+
+  handleGoBackToFolder = (i) => {
+    this.state.breadcrumbSections.goBackToSectionNumber(i);
+    console.log(this.state.breadcrumbSections);
+    this.refreshData();
   }
 
   render() {
     return (
       <div className="main-page">
         <Navbar />
+        <FoldersBreadcrumb
+          sections={this.state.breadcrumbSections.getSections()} 
+          onClickItem={this.handleGoBackToFolder}
+          />
         {
           this.state.files.length > 0 && (
             <div className="files-table">

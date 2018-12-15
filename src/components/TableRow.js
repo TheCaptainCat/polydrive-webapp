@@ -10,7 +10,7 @@ export default class TableRow extends React.Component {
 
   handleOnClick = () => {
     if (this.props.item.type == 'folder') {
-      this.props.onClickFolder(this.props.item.id);
+      this.props.onClickFolder(this.props.item.id, this.props.item.name);
     }
   }
 
