@@ -44,7 +44,11 @@ export default class MainPage extends React.Component {
   }
 
   refreshData = () => {
-    fetch('http://localhost:5000/folders' + (this.state.breadcrumbSections.getLastId() != 0 ? '/' + this.state.breadcrumbSections.getLastId() : ''), {
+    fetch('http://localhost:5000/folders' + 
+    (
+      this.state.breadcrumbSections.getLastId() != 0 ? 
+      '/' + this.state.breadcrumbSections.getLastId() : ''
+    ), {
       mode: 'cors',
       method: 'GET',
       withCredentials: true,
