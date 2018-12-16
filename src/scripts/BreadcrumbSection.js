@@ -27,8 +27,17 @@ export default class BreadcrumbSection {
     });
   }
 
-  goBackToSectionNumber(number) {
-    this.sections = this.sections.slice(0, number+1);
+  goBackToSectionId(id) {
+    this.sections = this.sections.slice(0, this.getIndexOfSectionId(id)+1);
     this.formatSections();
+  }
+
+  getIndexOfSectionId(id) {
+    for (let i = 0; i < this.sections.length; i++) {
+      if (this.sections[i].id == id) {
+        return i;
+      }
+    }
+    return 0;
   }
 }

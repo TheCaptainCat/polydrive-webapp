@@ -21,12 +21,6 @@ export default class MainPage extends React.Component {
       autoProceed: true
     })
     
-    uppy.use(XHRUpload, { 
-      endpoint: 'http://localhost:5000/files',
-      fieldName: 'file',
-      withCredentials: true
-    })
-    
     uppy.on('complete', (result) => {
       this.refreshData();
     })
@@ -34,9 +28,12 @@ export default class MainPage extends React.Component {
     this.state = {
       files: [],
       uppy: uppy,
-      parent_id: '',
+      parent_id: 0,
       breadcrumbSections: new BreadcrumbSection()
     }
+
+    // Requires uppy to be in the state array first
+    this.updateUppyEndpoint();
   }
 
   componentDidMount() {
@@ -46,8 +43,7 @@ export default class MainPage extends React.Component {
   refreshData = () => {
     fetch('http://localhost:5000/folders' + 
     (
-      this.state.breadcrumbSections.getLastId() != 0 ? 
-      '/' + this.state.breadcrumbSections.getLastId() : ''
+      this.state.parent_id != 0 ? '/' + this.state.parent_id : ''
     ), {
       mode: 'cors',
       method: 'GET',
@@ -72,14 +68,32 @@ export default class MainPage extends React.Component {
   }
 
   handleOnClickFolder = (id, name) => {
+    this.state.parent_id = id;
     this.state.breadcrumbSections.addSection(id, name);
-    this.refreshData(id);
+    this.updateUppyEndpoint();
+    this.refreshData();
   }
 
-  handleGoBackToFolder = (i) => {
-    this.state.breadcrumbSections.goBackToSectionNumber(i);
-    console.log(this.state.breadcrumbSections);
+  handleGoBackToFolder = (id) => {
+    this.state.parent_id = id;
+    this.state.breadcrumbSections.goBackToSectionId(id);
+    this.updateUppyEndpoint();
     this.refreshData();
+  }
+
+  updateUppyEndpoint = () => {
+    const plugin = this.state.uppy.getPlugin('XHRUpload');
+    if (plugin) {
+      this.state.uppy.removePlugin(plugin);
+    }
+    this.state.uppy.use(XHRUpload, { 
+      endpoint: 'http://localhost:5000/files' + (
+        this.state.breadcrumbSections.getLastId() != 0 ? 
+        '/' + this.state.breadcrumbSections.getLastId() : ''
+      ),
+      fieldName: 'file',
+      withCredentials: true
+    });
   }
 
   render() {

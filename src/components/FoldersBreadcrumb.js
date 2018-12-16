@@ -23,7 +23,7 @@ export default class FoldersBreadcrumb extends React.Component {
                 link={item.link}
                 active={item.active}
                 onClick={this.handleSectionClick}
-                data-id={i}
+                data-id={item.id}
               >
                 {item.content}
               </Breadcrumb.Section>

@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default class FileIcon extends React.Component {
-  constructor(props) {console.log('hgjkhgkj');
+  constructor(props) {
     super(props);
     const iconFilePath = this.getIconFilePath(
       this.props.type,
