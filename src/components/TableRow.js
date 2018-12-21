@@ -11,8 +11,12 @@ export default class TableRow extends React.Component {
   handleOnClick = () => {
     if (this.props.item.type == 'folder') {
       this.props.onClickFolder(this.props.item.id, this.props.item.name);
+    } else {
+      if (['image/png', 'image/jpeg'].includes(this.props.item.mime)) {
+        this.props.onClickImage(this.props.item.id, this.props.item.name);
+      }
     }
-  }
+  };
 
   render() {
     return (
