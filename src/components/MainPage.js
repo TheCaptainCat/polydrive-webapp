@@ -19,18 +19,18 @@ export default class MainPage extends React.Component {
     const uppy = Uppy({
       meta: { type: 'avatar' },
       autoProceed: true
-    })
+    });
     
     uppy.on('complete', (result) => {
       this.refreshData();
-    })
+    });
 
     this.state = {
       files: [],
       uppy: uppy,
       parent_id: 0,
       breadcrumbSections: new BreadcrumbSection()
-    }
+    };
 
     // Requires uppy to be in the state array first
     this.updateUppyEndpoint();
@@ -41,9 +41,9 @@ export default class MainPage extends React.Component {
   }
 
   refreshData = () => {
-    fetch('http://localhost:5000/folders' + 
+    fetch('http://localhost:5000/res' +
     (
-      this.state.parent_id != 0 ? '/' + this.state.parent_id : ''
+      this.state.parent_id !== 0 ? '/' + this.state.parent_id : ''
     ), {
       mode: 'cors',
       method: 'GET',
@@ -58,28 +58,31 @@ export default class MainPage extends React.Component {
     .then(res => {
       let files = [];
       res.json().then((data) => {
-        console.log(data);
-        data.content.forEach(element => {
+        let content = data.content;
+        if (this.state.parent_id !== 0) {
+          content = content.children;
+        }
+        content.forEach(element => {
           files.push(element);
         });
         this.setState(() => { return { files } });
       });
     })
-  }
+  };
 
   handleOnClickFolder = (id, name) => {
     this.state.parent_id = id;
     this.state.breadcrumbSections.addSection(id, name);
     this.updateUppyEndpoint();
     this.refreshData();
-  }
+  };
 
   handleGoBackToFolder = (id) => {
     this.state.parent_id = id;
     this.state.breadcrumbSections.goBackToSectionId(id);
     this.updateUppyEndpoint();
     this.refreshData();
-  }
+  };
 
   updateUppyEndpoint = () => {
     const plugin = this.state.uppy.getPlugin('XHRUpload');
@@ -87,14 +90,14 @@ export default class MainPage extends React.Component {
       this.state.uppy.removePlugin(plugin);
     }
     this.state.uppy.use(XHRUpload, { 
-      endpoint: 'http://localhost:5000/files' + (
+      endpoint: 'http://localhost:5000/res' + (
         this.state.breadcrumbSections.getLastId() != 0 ? 
         '/' + this.state.breadcrumbSections.getLastId() : ''
       ),
       fieldName: 'file',
       withCredentials: true
     });
-  }
+  };
 
   render() {
     return (
