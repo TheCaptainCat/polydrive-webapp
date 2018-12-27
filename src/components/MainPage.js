@@ -90,7 +90,7 @@ export default class MainPage extends React.Component {
       this.state.uppy.removePlugin(plugin);
     }
     this.state.uppy.use(XHRUpload, { 
-      endpoint: 'http://localhost:5000/res' + (
+      endpoint: 'http://localhost:5000/res/upload' + (
         this.state.breadcrumbSections.getLastId() != 0 ? 
         '/' + this.state.breadcrumbSections.getLastId() : ''
       ),
