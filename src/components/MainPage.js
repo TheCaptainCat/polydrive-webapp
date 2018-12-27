@@ -42,9 +42,9 @@ export default class MainPage extends React.Component {
   }
 
   refreshData = () => {
-    fetch('http://localhost:5000/folders' +
+    fetch('http://localhost:5000/res' +
     (
-      this.state.parent_id != 0 ? '/' + this.state.parent_id : ''
+      this.state.parent_id !== 0 ? '/' + this.state.parent_id : ''
     ), {
       mode: 'cors',
       method: 'GET',
@@ -59,8 +59,11 @@ export default class MainPage extends React.Component {
     .then(res => {
       let files = [];
       res.json().then((data) => {
-        console.log(data);
-        data.content.forEach(element => {
+        let content = data.content;
+        if (this.state.parent_id !== 0) {
+          content = content.children;
+        }
+        content.forEach(element => {
           files.push(element);
         });
         this.setState(() => { return { files } });
@@ -95,9 +98,9 @@ export default class MainPage extends React.Component {
     if (plugin) {
       this.state.uppy.removePlugin(plugin);
     }
-    this.state.uppy.use(XHRUpload, {
-      endpoint: 'http://localhost:5000/files' + (
-        this.state.breadcrumbSections.getLastId() != 0 ?
+    this.state.uppy.use(XHRUpload, { 
+      endpoint: 'http://localhost:5000/res' + (
+        this.state.breadcrumbSections.getLastId() != 0 ? 
         '/' + this.state.breadcrumbSections.getLastId() : ''
       ),
       fieldName: 'file',
