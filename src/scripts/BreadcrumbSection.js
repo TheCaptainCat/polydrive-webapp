@@ -9,6 +9,10 @@ export default class BreadcrumbSection {
     return this.sections;
   }
 
+  setSections(sections) {
+    this.sections = sections;
+  }
+
   getLastId() {
     return this.sections[this.sections.length - 1].id;
   }
@@ -22,8 +26,8 @@ export default class BreadcrumbSection {
 
   formatSections() {
     this.sections.map((s, i) => {
-      s.active = i == (this.sections.length - 1);
-      s.link = i != (this.sections.length - 1);
+      s.active = i === (this.sections.length - 1);
+      s.link = i !== (this.sections.length - 1);
     });
   }
 
@@ -34,7 +38,7 @@ export default class BreadcrumbSection {
 
   getIndexOfSectionId(id) {
     for (let i = 0; i < this.sections.length; i++) {
-      if (this.sections[i].id == id) {
+      if (this.sections[i].id === id) {
         return i;
       }
     }

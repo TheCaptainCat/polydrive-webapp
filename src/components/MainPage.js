@@ -38,13 +38,17 @@ export default class MainPage extends React.Component {
   }
 
   componentDidMount() {
-    this.refreshData();
+    this.getFileFromFolder();
   }
 
-  refreshData = () => {
+  refreshData() {
+    this.getFileFromFolder(this.state.parent_id);
+  }
+
+  getFileFromFolder = (parent_id) => {
     fetch('http://localhost:5000/res' +
     (
-      this.state.parent_id !== 0 ? '/' + this.state.parent_id : ''
+      parent_id ? '/' + parent_id : ''
     ), {
       mode: 'cors',
       method: 'GET',
@@ -60,7 +64,7 @@ export default class MainPage extends React.Component {
       let files = [];
       res.json().then((data) => {
         let content = data.content;
-        if (this.state.parent_id !== 0) {
+        if (parent_id) {
           content = content.children;
         }
         content.forEach(element => {
@@ -72,36 +76,50 @@ export default class MainPage extends React.Component {
   };
 
   handleOnClickFolder = (id, name) => {
-    this.state.parent_id = id;
-    this.state.breadcrumbSections.addSection(id, name);
-    this.updateUppyEndpoint();
-    this.refreshData();
+    this.updateCurrentFolder(id, name);
   };
 
   handleGoBackToFolder = (id) => {
-    this.state.parent_id = id;
-    this.state.breadcrumbSections.goBackToSectionId(id);
-    this.updateUppyEndpoint();
-    this.refreshData();
+    this.updateCurrentFolder(id);
+  };
+
+  updateCurrentFolder = (id, name) => {
+    let breadcrumbSections = new BreadcrumbSection();
+    breadcrumbSections.setSections(this.state.breadcrumbSections.getSections());
+    if (name) {
+      breadcrumbSections.addSection(id, name);
+    } else {
+      breadcrumbSections.goBackToSectionId(id);
+    }
+
+    this.setState(() => {
+      return {
+        parent_id: id,
+        fileToDisplay: null,
+        breadcrumbSections: breadcrumbSections
+      }
+    });
+
+    this.getFileFromFolder(id);
+    this.updateUppyEndpoint(id);
   };
 
   handleOnClickImage = (id, name) => {
     this.setState(() => {
       return {
-        fileToDisplay: 'http://localhost:5000/files/' + id + '/file'
+        fileToDisplay: 'http://localhost:5000/res/' + id + '/download'
       }
     })
   };
 
-  updateUppyEndpoint = () => {
+  updateUppyEndpoint = (folder_id) => {
     const plugin = this.state.uppy.getPlugin('XHRUpload');
     if (plugin) {
       this.state.uppy.removePlugin(plugin);
     }
     this.state.uppy.use(XHRUpload, { 
       endpoint: 'http://localhost:5000/res/upload' + (
-        this.state.breadcrumbSections.getLastId() != 0 ? 
-        '/' + this.state.breadcrumbSections.getLastId() : ''
+        folder_id ? '/' + folder_id : ''
       ),
       fieldName: 'file',
       withCredentials: true
