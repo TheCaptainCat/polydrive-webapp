@@ -2,7 +2,7 @@ import React from 'react';
 import Uppy from '@uppy/core';
 import XHRUpload from '@uppy/xhr-upload';
 import { DragDrop } from '@uppy/react';
-import { Table } from 'semantic-ui-react';
+import {Confirm, Table} from 'semantic-ui-react';
 import 'moment-timezone';
 import '../scripts/drag-drop';
 import Navbar from './Navbar';
@@ -31,7 +31,9 @@ export default class MainPage extends React.Component {
       uppy: uppy,
       parent_id: 0,
       breadcrumbSections: new BreadcrumbSection(),
-      fileToDisplay: ''
+      fileToDisplay: '',
+      showDeleteModal: false,
+      idOfItemToDelete: 0
     };
 
     // Requires uppy to be in the state array first
@@ -133,8 +135,14 @@ export default class MainPage extends React.Component {
   };
 
   handleOnClickDelete = (id) => {
-    console.log(`DELETING ${id}`);
-    fetch('http://localhost:5000/res/' + id, {
+    this.setState(() => ({
+      showDeleteModal: true,
+      idOfItemToDelete: id
+    }));
+  };
+
+  handleConfirmDelete = () => {
+    fetch('http://localhost:5000/res/' + this.state.idOfItemToDelete, {
       mode: 'cors',
       method: 'DELETE',
       withCredentials: true,
@@ -147,6 +155,9 @@ export default class MainPage extends React.Component {
     }).then(res => {
        this.refreshData();
     });
+    this.setState(() => ({
+      showDeleteModal: false
+    }));
   };
 
   render() {
@@ -194,6 +205,15 @@ export default class MainPage extends React.Component {
           />
         <ContextMenu
           onClickDelete={this.handleOnClickDelete}
+        />
+        <Confirm
+          open={this.state.showDeleteModal}
+          onCancel={() => { this.setState(() => ({ showDeleteModal: false}))}}
+          onConfirm={this.handleConfirmDelete}
+          header="Attention"
+          content="Voulez-vous vraiment supprimer ce fichier ? Cette action est irréversible."
+          cancelButton="Annuler"
+          size="tiny"
         />
       </div>
     );
