@@ -92,13 +92,11 @@ export default class MainPage extends React.Component {
       breadcrumbSections.goBackToSectionId(id);
     }
 
-    this.setState(() => {
-      return {
+    this.setState(() => ({
         parent_id: id,
         fileToDisplay: null,
         breadcrumbSections: breadcrumbSections
-      }
-    });
+    }));
 
     this.getFileFromFolder(id);
     this.updateUppyEndpoint(id);
@@ -110,6 +108,10 @@ export default class MainPage extends React.Component {
         fileToDisplay: 'http://localhost:5000/res/' + id + '/download'
       }
     })
+  };
+
+  handleHideImagePreview = () => {
+    this.setState(() => ({ fileToDisplay: null }));
   };
 
   updateUppyEndpoint = (folder_id) => {
@@ -163,10 +165,11 @@ export default class MainPage extends React.Component {
           )
         }
         <div id="drag-drop">
-          <DragDrop  uppy={this.state.uppy}></DragDrop>
+          <DragDrop  uppy={this.state.uppy}/>
         </div>
         <ImageViewer
           imagePath={this.state.fileToDisplay}
+          handleHideImagePreview={this.handleHideImagePreview}
           />
       </div>
     );

@@ -8,7 +8,7 @@ export default class FileIcon extends React.Component {
       this.props.mime
     );
     this.state = {
-      iconFilePath
+      icon: iconFilePath
     }
   }
 
@@ -17,9 +17,9 @@ export default class FileIcon extends React.Component {
       nextProps.type,
       nextProps.mime
     );
-    this.state = {
-      iconFilePath
-    }
+    this.setState(() => ({
+      icon: iconFilePath
+    }));
   }
 
   getIconFilePath(type, mime) {
@@ -51,7 +51,7 @@ export default class FileIcon extends React.Component {
   render() {
     return (
       <div>
-        <img className="file-icon" src={ this.state.iconFilePath } />
+        <img className="file-icon" src={ this.state.icon } />
       </div>
     );
   }

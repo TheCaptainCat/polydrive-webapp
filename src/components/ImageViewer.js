@@ -12,16 +12,12 @@ export default class ImageViewer extends React.Component {
 
   handleClick = (e) => {
     if (e.target.tagName !== 'IMG') {
-      this.setState((prevState) => {
-        return {
-          'open': !prevState.open
-        }
-      });
+      this.props.handleHideImagePreview();
     }
   };
 
   componentWillReceiveProps(newProps) {
-    this.state.open = !!newProps.imagePath;
+    this.setState(() => ({open: !!newProps.imagePath}));
   }
 
   render () {
