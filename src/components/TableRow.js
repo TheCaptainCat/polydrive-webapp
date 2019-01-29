@@ -14,6 +14,8 @@ export default class TableRow extends React.Component {
     } else {
       if (['image/png', 'image/jpeg'].includes(this.props.item.mime)) {
         this.props.onClickImage(this.props.item.id, this.props.item.name);
+      } else {
+        window.open('http://localhost:5000/res/' + this.props.item.id + '/download')
       }
     }
   };

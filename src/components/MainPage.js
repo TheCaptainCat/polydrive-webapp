@@ -68,7 +68,11 @@ export default class MainPage extends React.Component {
           content = content.children;
         }
         content.forEach(element => {
-          files.push(element);
+          if (element.type === 'folder') {
+            files.unshift(element);
+          } else {
+            files.push(element);
+          }
         });
         this.setState(() => { return { files } });
       });
