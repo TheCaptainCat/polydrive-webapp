@@ -10,6 +10,7 @@ import TableRow from './TableRow';
 import FoldersBreadcrumb from './FoldersBreadcrumb';
 import BreadcrumbSection from '../scripts/BreadcrumbSection'
 import ImageViewer from './ImageViewer';
+import ContextMenu from "./ContextMenu";
 
 
 export default class MainPage extends React.Component {
@@ -59,8 +60,7 @@ export default class MainPage extends React.Component {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
       }
-    })
-    .then(res => {
+    }).then(res => {
       let files = [];
       res.json().then((data) => {
         let content = data.content;
@@ -76,7 +76,7 @@ export default class MainPage extends React.Component {
         });
         this.setState(() => { return { files } });
       });
-    })
+    });
   };
 
   handleOnClickFolder = (id, name) => {
@@ -132,6 +132,23 @@ export default class MainPage extends React.Component {
     });
   };
 
+  handleOnClickDelete = (id) => {
+    console.log(`DELETING ${id}`);
+    fetch('http://localhost:5000/res/' + id, {
+      mode: 'cors',
+      method: 'DELETE',
+      withCredentials: true,
+      credentials: 'include',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    }).then(res => {
+       this.refreshData();
+    });
+  };
+
   render() {
     return (
       <div className="main-page">
@@ -175,6 +192,9 @@ export default class MainPage extends React.Component {
           imagePath={this.state.fileToDisplay}
           handleHideImagePreview={this.handleHideImagePreview}
           />
+        <ContextMenu
+          onClickDelete={this.handleOnClickDelete}
+        />
       </div>
     );
   }

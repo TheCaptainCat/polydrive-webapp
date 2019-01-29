@@ -4102,6 +4102,14 @@ rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-contexify@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/react-contexify/-/react-contexify-4.0.1.tgz#154600f9a0cab6176e0d7f1900b76d0acf25ea8a"
+  integrity sha512-CKgx4B44Fx6Qgfy2Hz5UUNcbeLfzEJVWUDxIbUthzxX9MHLOkYE4G8PYdWGRL47oSyFi8Y4Ho+X+rXuW7U3QAQ==
+  dependencies:
+    classnames "^2.2.6"
+    prop-types "^15.6.2"
+
 react-dom-factories@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-dom-factories/-/react-dom-factories-1.0.0.tgz#f43c05e5051b304f33251618d5bc859b29e46b6d"

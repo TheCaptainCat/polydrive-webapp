@@ -38,8 +38,11 @@ export default class FileIcon extends React.Component {
         case 'application/zip':
           iconFilePath += 'archive';
           break;
-          case 'application/pdf':
-        iconFilePath += 'pdf';
+        case 'application/pdf':
+          iconFilePath += 'pdf';
+          break;
+        case 'audio/mp3':
+          iconFilePath += 'music';
           break;
         default:
           iconFilePath += 'unknown';

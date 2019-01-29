@@ -27,6 +27,7 @@
     "node-sass": "4.5.3",
     "normalize.css": "7.0.0",
     "react": "^16.0.0",
+    "react-contexify": "^4.0.1",
     "react-dom": "^16.7.0",
     "react-modal": "2.2.2",
     "react-moment": "^0.8.4",
