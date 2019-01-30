@@ -57,11 +57,22 @@ export default class ModalTreeview extends React.Component {
       });
     });
   }
-  formatResponse(response) {
-    let folders = response;
-    console.log(folders);
-    // TODO
-    return folders;
+  formatResponse(folders) {
+    let formatted = [];
+    for (const folder of folders) {
+      if (folder.type === 'folder') {
+        console.log(folder);
+        let f = {
+          value: folder.id,
+          label: folder.name
+        };
+        if (folder.children) {
+          f.children = this.formatResponse(folder.children);
+        }
+        formatted.push(f);
+      }
+    }
+    return formatted;
   }
 
   handleCheck = (checkedItems, currentItem) => {
@@ -75,7 +86,7 @@ export default class ModalTreeview extends React.Component {
         <Modal.Content image>
           <Modal.Description>
             <CheckboxTree
-              nodes={nodes}
+              nodes={this.state.folders}
               checked={this.state.checked}
               expanded={this.state.expanded}
               onCheck={this.handleCheck}
