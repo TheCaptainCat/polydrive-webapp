@@ -11,6 +11,7 @@ import FoldersBreadcrumb from './FoldersBreadcrumb';
 import BreadcrumbSection from '../scripts/BreadcrumbSection'
 import ImageViewer from './ImageViewer';
 import ContextMenu from "./ContextMenu";
+import ModalTreeview from "./ModalTreeview";
 
 
 export default class MainPage extends React.Component {
@@ -215,6 +216,7 @@ export default class MainPage extends React.Component {
           cancelButton="Annuler"
           size="tiny"
         />
+        <ModalTreeview/>
       </div>
     );
   }

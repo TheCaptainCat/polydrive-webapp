@@ -10,6 +10,10 @@
     "dev-server": "webpack-dev-server"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free-solid": "^5.0.13",
+    "@fortawesome/fontawesome-svg-core": "^1.2.13",
+    "@fortawesome/free-solid-svg-icons": "^5.7.0",
+    "@fortawesome/react-fontawesome": "^0.1.4",
     "@uppy/core": "^0.29.0",
     "@uppy/react": "^0.29.0",
     "@uppy/xhr-upload": "^0.29.0",
@@ -27,6 +31,7 @@
     "node-sass": "4.5.3",
     "normalize.css": "7.0.0",
     "react": "^16.0.0",
+    "react-checkbox-tree": "^1.5.1",
     "react-contexify": "^4.0.1",
     "react-dom": "^16.7.0",
     "react-modal": "2.2.2",
