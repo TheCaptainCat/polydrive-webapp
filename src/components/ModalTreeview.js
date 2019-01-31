@@ -56,7 +56,7 @@ export default class ModalTreeview extends React.Component {
 
   render() {
     return (
-      <Modal className="tiny modal-treeview" trigger={<Button>Long Modal</Button>}>
+      <Modal open={this.props.showModal} onClose={() => {this.props.handleCancelMove()}} className="tiny modal-treeview">
         <Modal.Header>Déplacer un fichier/dossier</Modal.Header>
         <Modal.Content image>
           <Modal.Description>
@@ -83,10 +83,14 @@ export default class ModalTreeview extends React.Component {
           </Modal.Description>
         </Modal.Content>
         <Modal.Actions>
-          <Button>
+          <Button onClick={() => {this.props.handleCancelMove()}}>
             Annuler
           </Button>
-          <Button primary disabled={this.state.checked.length === 0}>
+          <Button
+            primary
+            disabled={this.state.checked.length === 0}
+            onClick={() => {this.props.handleConfirmMove(this.state.checked[0])}}
+          >
             Déplacer
           </Button>
         </Modal.Actions>

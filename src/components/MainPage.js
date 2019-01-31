@@ -35,7 +35,8 @@ export default class MainPage extends React.Component {
       breadcrumbSections: new BreadcrumbSection(),
       fileToDisplay: '',
       showDeleteModal: false,
-      idOfItemToDelete: 0
+      showMoveModal: false,
+      idOfItemToHandle: 0
     };
 
     // Requires uppy to be in the state array first
@@ -128,18 +129,43 @@ export default class MainPage extends React.Component {
   handleOnClickDelete = (id) => {
     this.setState(() => ({
       showDeleteModal: true,
-      idOfItemToDelete: id
+      idOfItemToHandle: id
+    }));
+  };
+
+  handleOnClickMove = (id) => {
+    this.setState(() => ({
+      showMoveModal: true,
+      idOfItemToHandle: id
     }));
   };
 
   handleConfirmDelete = () => {
-    performFetch('http://localhost:5000/res/' + this.state.idOfItemToDelete, 'DELETE', true, () => {
+    performFetch('http://localhost:5000/res/' + this.state.idOfItemToHandle, 'DELETE', true, () => {
       this.props.history.push('/login');
     }).then(() => {this.refreshData(); });
     this.setState(() => ({
-      showDeleteModal: false
+      showDeleteModal: false,
+      idOfItemToHandle: 0
     }));
   };
+
+  handleConfirmMove = (parentFolderId) => {
+    console.log(parentFolderId);
+    // TODO performFetch()
+    this.hideMoveModal();
+  };
+
+  handleCancelMove = () => {
+    this.hideMoveModal()
+  };
+
+  hideMoveModal() {
+    this.setState(() => ({
+      showMoveModal: false,
+      idOfItemToHandle: 0
+    }));
+  }
 
   redirectToLogin() {
     this.props.history.push('/login');
@@ -196,6 +222,7 @@ export default class MainPage extends React.Component {
           />
         <ContextMenu
           onClickDelete={this.handleOnClickDelete}
+          onClickMove={this.handleOnClickMove}
         />
         <Confirm
           open={this.state.showDeleteModal}
@@ -206,7 +233,12 @@ export default class MainPage extends React.Component {
           cancelButton="Annuler"
           size="tiny"
         />
-        <ModalTreeview onAuthenticationFailed={this.redirectToLogin}/>
+        <ModalTreeview
+          showModal={this.state.showMoveModal}
+          handleConfirmMove={this.handleConfirmMove}
+          handleCancelMove={this.handleCancelMove}
+          onAuthenticationFailed={this.redirectToLogin}
+        />
       </div>
     );
   }

@@ -8,10 +8,14 @@ export default class ContextMenu extends React.Component {
     this.props.onClickDelete(e.props.id);
   };
 
+  handleMove = (e) => {
+    this.props.onClickMove(e.props.id);
+  };
+
   render() {
     return (
       <Menu id='context-menu'>
-        <Item><IconFont className="share icon"/>Déplacer</Item>
+        <Item onClick={this.handleMove}><IconFont className="share icon"/>Déplacer</Item>
         <Separator />
         <Item><IconFont className="pencil alternate icon"/>Renommer</Item>
         <Item onClick={this.handleDelete}><IconFont className="trash alternate icon"/>Supprimer</Item>
