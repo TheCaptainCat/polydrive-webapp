@@ -5,6 +5,7 @@ import { DragDrop } from '@uppy/react';
 import {Confirm, Table} from 'semantic-ui-react';
 import 'moment-timezone';
 import '../scripts/drag-drop';
+import { performFetch } from "../scripts/FetchService";
 import Navbar from './Navbar';
 import TableRow from './TableRow';
 import FoldersBreadcrumb from './FoldersBreadcrumb';
@@ -50,19 +51,8 @@ export default class MainPage extends React.Component {
   }
 
   getFileFromFolder = (parent_id) => {
-    fetch('http://localhost:5000/res' +
-    (
-      parent_id ? '/' + parent_id : ''
-    ), {
-      mode: 'cors',
-      method: 'GET',
-      withCredentials: true,
-      credentials: 'include',
-      headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-      }
+    performFetch('http://localhost:5000/res' + (parent_id ? '/' + parent_id : ''), 'GET', null, true, () => {
+      this.redirectToLogin();
     }).then(res => {
       let files = [];
       res.json().then((data) => {
@@ -143,23 +133,17 @@ export default class MainPage extends React.Component {
   };
 
   handleConfirmDelete = () => {
-    fetch('http://localhost:5000/res/' + this.state.idOfItemToDelete, {
-      mode: 'cors',
-      method: 'DELETE',
-      withCredentials: true,
-      credentials: 'include',
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      }
-    }).then(res => {
-       this.refreshData();
-    });
+    performFetch('http://localhost:5000/res/' + this.state.idOfItemToDelete, 'DELETE', true, () => {
+      this.props.history.push('/login');
+    }).then(() => {this.refreshData(); });
     this.setState(() => ({
       showDeleteModal: false
     }));
   };
+
+  redirectToLogin() {
+    this.props.history.push('/login');
+  }
 
   render() {
     return (
@@ -216,7 +200,7 @@ export default class MainPage extends React.Component {
           cancelButton="Annuler"
           size="tiny"
         />
-        <ModalTreeview/>
+        <ModalTreeview onAuthenticationFailed={this.redirectToLogin}/>
       </div>
     );
   }

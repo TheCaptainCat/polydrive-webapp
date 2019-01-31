@@ -3,26 +3,8 @@ import {Button, Header, Icon, Image, Modal} from "semantic-ui-react";
 import CheckboxTree from 'react-checkbox-tree';
 import 'react-checkbox-tree/lib/react-checkbox-tree.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { performFetch } from "../scripts/FetchService";
 import { faCheckSquare, faCoffee, faSquare, faChevronRight, faChevronDown, faPlusSquare, faMinusSquare, faFolder, faFile } from '@fortawesome/fontawesome-free-solid';
-
-const nodes = [{
-  value: '1',
-  label: 'Home',
-  children: [
-    {
-      value: '4',
-      label: 'Cours',
-      children: [
-        { value: '12', label: 'IUT' },
-        { value: '19', label: 'Polytech' }
-      ]
-    },
-    {
-      value: '6',
-      label: 'Divers'
-    }
-  ],
-}];
 
 export default class ModalTreeview extends React.Component {
   constructor(props) {
@@ -36,16 +18,8 @@ export default class ModalTreeview extends React.Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:5000/res', {
-      mode: 'cors',
-      method: 'GET',
-      withCredentials: true,
-      credentials: 'include',
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      }
+    performFetch('http://localhost:5000/res', 'GET', true, () => {
+      this.props.onAuthenticationFailed()
     }).then(res => {
       let folders = [];
       res.json().then((data) => {
@@ -57,6 +31,7 @@ export default class ModalTreeview extends React.Component {
       });
     });
   }
+
   formatResponse(folders) {
     let formatted = [];
     for (const folder of folders) {
