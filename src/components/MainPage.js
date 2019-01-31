@@ -174,7 +174,7 @@ export default class MainPage extends React.Component {
   render() {
     return (
       <div className="main-page">
-        <Navbar />
+        <Navbar redirectAfterLogOut={(e) => this.redirectToLogin(e)}/>
         <Segment textAlign='right' className='new-folder-segment'>
           <Button icon labelPosition='right' primary>
             Nouveau dossier
