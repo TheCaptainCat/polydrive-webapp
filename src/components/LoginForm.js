@@ -47,7 +47,7 @@ export default class LoginForm extends React.Component {
         <Form onSubmit={this.handleFormSubmit} className="login-form">
           <Form.Field>
             <label>Nom d'utilisateur</label>
-            <Input fluid placeholder="Nom d'utilisateur" name="username"/>
+            <Input fluid focus placeholder="Nom d'utilisateur" name="username"/>
           </Form.Field>
 
           <Form.Field>

@@ -8,7 +8,7 @@ export default class LoginPage extends React.Component {
 
   render() {
     return (
-      <div className="login-page">
+      <div className="login-page" style={{'backgroundImage': 'url("../images/login-background.jpg")'}}>
         <LoginForm handleHistoryChanges={this.handleHistoryChanges}/> 
       </div>
     );
