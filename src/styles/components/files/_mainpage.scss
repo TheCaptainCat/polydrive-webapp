@@ -1,6 +1,13 @@
 .main-page {
   padding: 92px 50px;
 
+  .new-folder-segment {
+    border: none;
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+  }
+
   #folders-breadcrumb {
     .active.section {
       color: black;

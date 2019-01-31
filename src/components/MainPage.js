@@ -2,7 +2,7 @@ import React from 'react';
 import Uppy from '@uppy/core';
 import XHRUpload from '@uppy/xhr-upload';
 import { DragDrop } from '@uppy/react';
-import {Confirm, Table} from 'semantic-ui-react';
+import {Button, Confirm, Icon, Segment, Table} from 'semantic-ui-react';
 import 'moment-timezone';
 import '../scripts/drag-drop';
 import { performFetch } from "../scripts/FetchService";
@@ -51,7 +51,7 @@ export default class MainPage extends React.Component {
   }
 
   getFileFromFolder = (parent_id) => {
-    performFetch('http://localhost:5000/res' + (parent_id ? '/' + parent_id : ''), 'GET', null, true, () => {
+    performFetch('http://localhost:5000/res' + (parent_id ? '/' + parent_id : ''), 'GET', true, () => {
       this.redirectToLogin();
     }).then(res => {
       let files = [];
@@ -149,6 +149,12 @@ export default class MainPage extends React.Component {
     return (
       <div className="main-page">
         <Navbar />
+        <Segment textAlign='right' className='new-folder-segment'>
+          <Button icon labelPosition='right' primary>
+            Nouveau dossier
+            <Icon name='plus' />
+          </Button>
+        </Segment>
         <FoldersBreadcrumb
           sections={this.state.breadcrumbSections.getSections()}
           onClickItem={this.handleGoBackToFolder}
