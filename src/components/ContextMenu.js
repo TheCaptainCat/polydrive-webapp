@@ -12,12 +12,16 @@ export default class ContextMenu extends React.Component {
     this.props.onClickMove(e.props.id);
   };
 
+  handleRename = (e) => {
+    this.props.onClickRename(e.props.id);
+  };
+
   render() {
     return (
       <Menu id='context-menu'>
         <Item onClick={this.handleMove}><IconFont className="share icon"/>Déplacer</Item>
         <Separator />
-        <Item><IconFont className="pencil alternate icon"/>Renommer</Item>
+        <Item onClick={this.handleRename}><IconFont className="pencil alternate icon"/>Renommer</Item>
         <Item onClick={this.handleDelete}><IconFont className="trash alternate icon"/>Supprimer</Item>
       </Menu>
     );

@@ -13,6 +13,7 @@ import BreadcrumbSection from '../scripts/BreadcrumbSection'
 import ImageViewer from './ImageViewer';
 import ContextMenu from "./ContextMenu";
 import ModalTreeview from "./ModalTreeview";
+import ModalTextInput from "./ModalTextInput";
 
 
 export default class MainPage extends React.Component {
@@ -36,7 +37,10 @@ export default class MainPage extends React.Component {
       fileToDisplay: '',
       showDeleteModal: false,
       showMoveModal: false,
-      idOfItemToHandle: 0
+      showModalTextInput: false,
+      idOfItemToHandle: 0,
+      modalTextInputSubmitFunction: null,
+      modalTextInputTitle: ''
     };
 
     // Requires uppy to be in the state array first
@@ -176,12 +180,65 @@ export default class MainPage extends React.Component {
     this.props.history.push('/login');
   }
 
+  handleRenameFile = (id) => {
+    this.setState(() => ({
+      showModalTextInput: true,
+      idOfItemToHandle: id,
+      modalTextInputSubmitFunction: this.handleConfirmRename,
+      modalTextInputTitle: 'Renommer un fichier/dossier'
+    }));
+  };
+
+  handleConfirmRename = (name) => {
+    let body = JSON.stringify({
+      name: name
+    });
+
+    performFetch(`http://localhost:5000/res/${this.state.idOfItemToHandle}`, 'PUT', true, () => {
+      this.props.history.push('/login');
+    }, body).then(() => {this.refreshData();});
+
+    this.hideTextInputModal();
+  };
+
+  handleCancelTextInput = () => {
+    this.hideTextInputModal();
+  };
+
+  hideTextInputModal() {
+    this.setState(() => ({
+      showModalTextInput: false,
+      idOfItemToHandle: 0
+    }));
+  }
+
+  handleCreateFolderClick = () => {
+    this.setState(() => ({
+      showModalTextInput: true,
+      modalTextInputSubmitFunction: this.handleConfirmCreateFolder,
+      modalTextInputTitle: 'Créer un dossier'
+    }));
+  };
+
+  handleConfirmCreateFolder = (name) => {
+    let body = JSON.stringify({
+      type: 'folder',
+      name: name
+    });
+
+    performFetch('http://localhost:5000/res', 'POST', true, () => {
+      this.props.history.push('/login');
+    }, body).then(() => {this.refreshData();});
+
+    this.hideTextInputModal();
+  };
+
   render() {
     return (
       <div className="main-page">
         <Navbar redirectAfterLogOut={(e) => this.redirectToLogin(e)}/>
         <Segment textAlign='right' className='new-folder-segment'>
-          <Button icon labelPosition='right' primary>
+          <Button icon labelPosition='right' primary onClick={this.handleCreateFolderClick}>
             Nouveau dossier
             <Icon name='plus' />
           </Button>
@@ -228,6 +285,7 @@ export default class MainPage extends React.Component {
         <ContextMenu
           onClickDelete={this.handleOnClickDelete}
           onClickMove={this.handleOnClickMove}
+          onClickRename={this.handleRenameFile}
         />
         <Confirm
           open={this.state.showDeleteModal}
@@ -243,6 +301,12 @@ export default class MainPage extends React.Component {
           handleConfirmMove={this.handleConfirmMove}
           handleCancelMove={this.handleCancelMove}
           onAuthenticationFailed={this.redirectToLogin}
+        />
+        <ModalTextInput
+          showModal={this.state.showModalTextInput}
+          handleConfirmTextInput={this.state.modalTextInputSubmitFunction}
+          handleCancelTextInput={this.handleCancelTextInput}
+          title={this.state.modalTextInputTitle}
         />
       </div>
     );
