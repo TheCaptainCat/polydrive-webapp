@@ -27,9 +27,17 @@ export default class ModalTreeview extends React.Component {
         content.forEach(element => {
           folders.push(element);
         });
-        this.setState(() => { return { folders: this.formatResponse(folders) } });
+        this.setState(() => { return { folders: this.addHomeFolder(folders) } });
       });
     });
+  }
+
+  addHomeFolder(response) {
+    return [{
+      value: '-1',
+      label: 'Home',
+      children: this.formatResponse(response)
+    }];
   }
 
   formatResponse(folders) {

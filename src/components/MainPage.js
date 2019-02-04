@@ -117,7 +117,7 @@ export default class MainPage extends React.Component {
     if (plugin) {
       this.state.uppy.removePlugin(plugin);
     }
-    this.state.uppy.use(XHRUpload, { 
+    this.state.uppy.use(XHRUpload, {
       endpoint: 'http://localhost:5000/res/upload' + (
         folder_id ? '/' + folder_id : ''
       ),
@@ -151,8 +151,13 @@ export default class MainPage extends React.Component {
   };
 
   handleConfirmMove = (parentFolderId) => {
-    console.log(parentFolderId);
-    // TODO performFetch()
+    let body = JSON.stringify({
+      parent_id: parentFolderId === '-1' ? null : parentFolderId
+    });
+    performFetch(`http://localhost:5000/res/${this.state.idOfItemToHandle}`, 'PUT', true, () => {
+      this.props.history.push('/login');
+    }, body).then(() => {this.refreshData();});
+
     this.hideMoveModal();
   };
 
