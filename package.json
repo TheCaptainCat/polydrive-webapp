@@ -34,6 +34,7 @@
     "react-checkbox-tree": "^1.5.1",
     "react-contexify": "^4.0.1",
     "react-dom": "^16.7.0",
+    "react-md-spinner": "^0.3.0",
     "react-modal": "2.2.2",
     "react-moment": "^0.8.4",
     "react-router-dom": "4.1.2",

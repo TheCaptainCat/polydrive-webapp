@@ -14,6 +14,7 @@ import ImageViewer from './ImageViewer';
 import ContextMenu from "./ContextMenu";
 import ModalTreeview from "./ModalTreeview";
 import ModalTextInput from "./ModalTextInput";
+import LoadingScreen from "./LoadingScreen";
 
 
 export default class MainPage extends React.Component {
@@ -40,7 +41,8 @@ export default class MainPage extends React.Component {
       showModalTextInput: false,
       idOfItemToHandle: 0,
       modalTextInputSubmitFunction: null,
-      modalTextInputTitle: ''
+      modalTextInputTitle: '',
+      showLoading: false
     };
 
     // Requires uppy to be in the state array first
@@ -56,6 +58,7 @@ export default class MainPage extends React.Component {
   }
 
   getFileFromFolder = (parent_id) => {
+    this.setState(() => ({showLoading: true}));
     performFetch('http://localhost:5000/res' + (parent_id ? '/' + parent_id : ''), 'GET', true, () => {
       this.redirectToLogin();
     }).then(res => {
@@ -72,7 +75,12 @@ export default class MainPage extends React.Component {
             files.push(element);
           }
         });
-        this.setState(() => { return { files } });
+        this.setState(() => {
+          return {
+            files: files,
+            showLoading: false
+          }
+        });
       });
     });
   };
@@ -307,6 +315,9 @@ export default class MainPage extends React.Component {
           handleConfirmTextInput={this.state.modalTextInputSubmitFunction}
           handleCancelTextInput={this.handleCancelTextInput}
           title={this.state.modalTextInputTitle}
+        />
+        <LoadingScreen
+          showLoading={this.state.showLoading}
         />
       </div>
     );

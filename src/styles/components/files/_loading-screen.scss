@@ -1,0 +1,34 @@
+.loading-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  background-color: rgba(206,206,206,0.4);
+
+  .spinner-background {
+    position: relative;
+    width: $spinner-holder-size;
+    height: $spinner-holder-size;
+    border-radius: 50%;
+    margin: 0 auto;
+    top: 50%;
+    background-color: #fff;
+    box-shadow: 0 0 8px #aaa;
+    transform: translateY(-50%);
+
+    .spinner-wrapper {
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      padding-top: 9px;
+
+      & > span {
+        // Edit the main span holding the spinner
+      }
+    }
+  }
+}
