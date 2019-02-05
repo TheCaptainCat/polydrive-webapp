@@ -15,6 +15,7 @@ import ContextMenu from "./ContextMenu";
 import ModalTreeview from "./ModalTreeview";
 import ModalTextInput from "./ModalTextInput";
 import LoadingScreen from "./LoadingScreen";
+import EmptyTableRow from "./EmptyTableRow";
 
 
 export default class MainPage extends React.Component {
@@ -75,12 +76,10 @@ export default class MainPage extends React.Component {
             files.push(element);
           }
         });
-        this.setState(() => {
-          return {
+        this.setState(() => ({
             files: files,
             showLoading: false
-          }
-        });
+        }));
       });
     });
   };
@@ -256,18 +255,17 @@ export default class MainPage extends React.Component {
           onClickItem={this.handleGoBackToFolder}
           />
         {
-          this.state.files.length > 0 && (
-            <div className="files-table">
-              <Table singleLine>
-                <Table.Header>
-                  <Table.Row>
-                    <Table.HeaderCell></Table.HeaderCell>
-                    <Table.HeaderCell>Nom</Table.HeaderCell>
-                    <Table.HeaderCell>Extension</Table.HeaderCell>
-                    <Table.HeaderCell>Dernière modification</Table.HeaderCell>
-                  </Table.Row>
-                </Table.Header>
-                <Table.Body>
+          <div className="files-table">
+            <Table singleLine>
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell></Table.HeaderCell>
+                  <Table.HeaderCell>Nom</Table.HeaderCell>
+                  <Table.HeaderCell>Extension</Table.HeaderCell>
+                  <Table.HeaderCell>Dernière modification</Table.HeaderCell>
+                </Table.Row>
+              </Table.Header>
+              <Table.Body>
                 {
                   this.state.files.map((item, i) =>
                     <TableRow
@@ -278,10 +276,14 @@ export default class MainPage extends React.Component {
                     />
                   )
                 }
-                </Table.Body>
-              </Table>
-            </div>
-          )
+                {
+                  this.state.files.length === 0 && (
+                    <EmptyTableRow />
+                  )
+                }
+              </Table.Body>
+            </Table>
+          </div>
         }
         <div id="drag-drop">
           <DragDrop  uppy={this.state.uppy}/>

@@ -27,6 +27,11 @@
     }
 
     .file-table-row {
+      &.empty-table-row {
+        text-align: center;
+        color: #808080
+      }
+
       &:hover {
         cursor: pointer;
         background-color: rgba(82, 148, 226, 0.05);
