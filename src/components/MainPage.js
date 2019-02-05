@@ -241,14 +241,12 @@ export default class MainPage extends React.Component {
   };
 
   handleCancelDrop = () => {
-    console.log('DROP');
     this.setState(() => ({
       showDropModal: false
     }));
   };
 
   handleDrag = () => {
-    console.log('DRAG');
     this.setState(() => ({
       showDropModal: true
     }));
