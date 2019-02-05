@@ -1,10 +1,8 @@
 import React from 'react';
 import Uppy from '@uppy/core';
 import XHRUpload from '@uppy/xhr-upload';
-import { DragDrop } from '@uppy/react';
 import {Button, Confirm, Icon, Segment, Table} from 'semantic-ui-react';
 import 'moment-timezone';
-import '../scripts/drag-drop';
 import { performFetch } from "../scripts/FetchService";
 import Navbar from './Navbar';
 import TableRow from './TableRow';
@@ -16,6 +14,7 @@ import ModalTreeview from "./ModalTreeview";
 import ModalTextInput from "./ModalTextInput";
 import LoadingScreen from "./LoadingScreen";
 import EmptyTableRow from "./EmptyTableRow";
+import ModalDragDrop from "./ModalDragDrop";
 
 
 export default class MainPage extends React.Component {
@@ -40,6 +39,7 @@ export default class MainPage extends React.Component {
       showDeleteModal: false,
       showMoveModal: false,
       showModalTextInput: false,
+      showDropModal: false,
       idOfItemToHandle: 0,
       modalTextInputSubmitFunction: null,
       modalTextInputTitle: '',
@@ -240,9 +240,23 @@ export default class MainPage extends React.Component {
     this.hideTextInputModal();
   };
 
+  handleCancelDrop = () => {
+    console.log('DROP');
+    this.setState(() => ({
+      showDropModal: false
+    }));
+  };
+
+  handleDrag = () => {
+    console.log('DRAG');
+    this.setState(() => ({
+      showDropModal: true
+    }));
+  };
+
   render() {
     return (
-      <div className="main-page">
+      <div className="main-page" onDragEnter={this.handleDrag}>
         <Navbar redirectAfterLogOut={(e) => this.redirectToLogin(e)}/>
         <Segment textAlign='right' className='new-folder-segment'>
           <Button icon labelPosition='right' primary onClick={this.handleCreateFolderClick}>
@@ -285,9 +299,11 @@ export default class MainPage extends React.Component {
             </Table>
           </div>
         }
-        <div id="drag-drop">
-          <DragDrop  uppy={this.state.uppy}/>
-        </div>
+        <ModalDragDrop
+          showModal={this.state.showDropModal}
+          handleCancelDrop={this.handleCancelDrop}
+          dropComponent={this.state.uppy}
+        />
         <ImageViewer
           imagePath={this.state.fileToDisplay}
           handleHideImagePreview={this.handleHideImagePreview}
