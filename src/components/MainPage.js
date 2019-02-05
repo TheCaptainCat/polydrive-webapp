@@ -1,7 +1,7 @@
 import React from 'react';
 import Uppy from '@uppy/core';
 import XHRUpload from '@uppy/xhr-upload';
-import {Button, Confirm, Icon, Segment, Table} from 'semantic-ui-react';
+import {Button, Confirm, Container, Grid, Icon, Segment, Table} from 'semantic-ui-react';
 import 'moment-timezone';
 import { performFetch } from "../scripts/FetchService";
 import Navbar from './Navbar';
@@ -256,17 +256,17 @@ export default class MainPage extends React.Component {
     return (
       <div className="main-page" onDragEnter={this.handleDrag}>
         <Navbar redirectAfterLogOut={(e) => this.redirectToLogin(e)}/>
-        <Segment textAlign='right' className='new-folder-segment'>
-          <Button icon labelPosition='right' primary onClick={this.handleCreateFolderClick}>
-            Nouveau dossier
-            <Icon name='plus' />
-          </Button>
-        </Segment>
-        <FoldersBreadcrumb
-          sections={this.state.breadcrumbSections.getSections()}
-          onClickItem={this.handleGoBackToFolder}
+        <Container>
+          <Segment textAlign='right' className='new-folder-segment'>
+            <Button icon labelPosition='right' primary onClick={this.handleCreateFolderClick}>
+              Nouveau dossier
+              <Icon name='plus' />
+            </Button>
+          </Segment>
+          <FoldersBreadcrumb
+            sections={this.state.breadcrumbSections.getSections()}
+            onClickItem={this.handleGoBackToFolder}
           />
-        {
           <div className="files-table">
             <Table singleLine>
               <Table.Header>
@@ -296,7 +296,9 @@ export default class MainPage extends React.Component {
               </Table.Body>
             </Table>
           </div>
-        }
+        </Container>
+
+
         <ModalDragDrop
           showModal={this.state.showDropModal}
           handleCancelDrop={this.handleCancelDrop}

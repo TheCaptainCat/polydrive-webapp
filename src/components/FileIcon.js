@@ -48,9 +48,7 @@ export default class FileIcon extends React.Component {
 
   render() {
     return (
-      <div>
-        <img className="file-icon" src={ this.state.icon } />
-      </div>
+      <img className="file-icon" src={ this.state.icon } />
     );
   }
 };
