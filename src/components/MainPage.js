@@ -23,7 +23,7 @@ export default class MainPage extends React.Component {
 
     const uppy = Uppy({
       meta: { type: 'avatar' },
-      autoProceed: true
+      autoProceed: false
     });
 
     uppy.on('complete', (result) => {
@@ -303,6 +303,7 @@ export default class MainPage extends React.Component {
           showModal={this.state.showDropModal}
           handleCancelDrop={this.handleCancelDrop}
           dropComponent={this.state.uppy}
+          files={this.state.files}
         />
         <ImageViewer
           imagePath={this.state.fileToDisplay}
