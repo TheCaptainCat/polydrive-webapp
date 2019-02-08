@@ -45,16 +45,27 @@ export default class ModalDragDrop extends React.Component {
     this.props.handleConfirmDrop();
   };
 
+  handleCancel = () => {
+    this.props.dropComponent.reset();
+    this.props.handleCancelDrop()
+  };
+
   render() {
     return (
       <Modal
         size="small"
         open={this.props.showModal}
-        onClose={() => {this.props.handleCancelDrop()}}
+        onClose={this.handleCancel}
+        className="modal-drag-drop"
       >
         <Modal.Header>Ajouter un fichier</Modal.Header>
         <Modal.Content>
-          <Dashboard uppy={this.props.dropComponent} />
+          <Dashboard
+            uppy={this.props.dropComponent}
+            height={400}
+            hideUploadButton={true}
+            proudlyDisplayPoweredByUppy={false}
+          />
         </Modal.Content>
         <Modal.Actions>
           <ModalVersions
@@ -62,8 +73,8 @@ export default class ModalDragDrop extends React.Component {
             files={this.state.files}
             onOk={this.handleModalVersionClickOk}
           />
-          <Button onClick={() => {this.props.handleCancelDrop()}}>Fermer</Button>
-          <Button onClick={this.handleClickProceed} primary>Valider</Button>
+          <Button onClick={this.handleCancel}>Annuler</Button>
+          <Button icon='check' content='Valider' onClick={this.handleClickProceed} primary/>
         </Modal.Actions>
       </Modal>
     )

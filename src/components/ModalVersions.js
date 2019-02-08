@@ -66,7 +66,7 @@ export default class ModalVersions extends React.Component {
           </List>
         </Modal.Content>
         <Modal.Actions>
-          <Button icon='check' content='Valider' onClick={this.handleOnClickOk} />
+          <Button icon='check' content='Valider' onClick={this.handleOnClickOk} primary/>
         </Modal.Actions>
       </Modal>
     )

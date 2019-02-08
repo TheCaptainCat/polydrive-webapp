@@ -32,7 +32,6 @@ export default class MainPage extends React.Component {
             if (file.createNew) {
               file.name = 'Copie de ' + file.name;
             } else {
-              console.log("fileId", file.originalFileId);
               uppy.setFileMeta(fileId, { replace_id: file.originalFileId })
             }
           }
@@ -43,6 +42,7 @@ export default class MainPage extends React.Component {
 
     uppy.on('complete', (result) => {
       this.refreshData();
+      uppy.reset();
     });
 
     this.state = {
