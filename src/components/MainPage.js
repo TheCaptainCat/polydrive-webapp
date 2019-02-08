@@ -15,6 +15,7 @@ import ModalTextInput from "./Modals/ModalTextInput";
 import LoadingScreen from "./LoadingScreen";
 import EmptyTableRow from "./Files/EmptyTableRow";
 import ModalDragDrop from "./Modals/ModalDragDrop";
+import ModalHistory from "./Modals/ModalHistory";
 
 
 export default class MainPage extends React.Component {
@@ -55,6 +56,7 @@ export default class MainPage extends React.Component {
       showMoveModal: false,
       showModalTextInput: false,
       showDropModal: false,
+      showModalHistory: false,
       idOfItemToHandle: 0,
       modalTextInputSubmitFunction: null,
       modalTextInputTitle: '',
@@ -275,6 +277,20 @@ export default class MainPage extends React.Component {
     }));
   };
 
+  handleOnClickShowHistory = (id) => {
+    this.setState(() => ({
+      showModalHistory: true,
+      idOfItemToHandle: id
+    }));
+  };
+
+  handleCancelShowHistory = () => {
+    this.setState(() => ({
+      showModalHistory: false,
+      idOfItemToHandle: 0
+    }));
+  };
+
   render() {
     return (
       <div className="main-page" onDragEnter={this.handleDrag}>
@@ -337,6 +353,7 @@ export default class MainPage extends React.Component {
           onClickDelete={this.handleOnClickDelete}
           onClickMove={this.handleOnClickMove}
           onClickRename={this.handleRenameFile}
+          onClickShowHistory={this.handleOnClickShowHistory}
         />
         <Confirm
           open={this.state.showDeleteModal}
@@ -358,6 +375,11 @@ export default class MainPage extends React.Component {
           handleConfirmTextInput={this.state.modalTextInputSubmitFunction}
           handleCancelTextInput={this.handleCancelTextInput}
           title={this.state.modalTextInputTitle}
+        />
+        <ModalHistory
+          showModal={this.state.showModalHistory}
+          handleCancelShowHistory={this.handleCancelShowHistory}
+          file={this.state.files.find(f => f.id === this.state.idOfItemToHandle)}
         />
         <LoadingScreen
           showLoading={this.state.showLoading}

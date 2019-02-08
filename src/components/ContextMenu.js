@@ -8,6 +8,10 @@ export default class ContextMenu extends React.Component {
     this.props.onClickDelete(e.props.id);
   };
 
+  handleShowHistory = (e) => {
+    this.props.onClickShowHistory(e.props.id);
+  };
+
   handleMove = (e) => {
     this.props.onClickMove(e.props.id);
   };
@@ -20,6 +24,7 @@ export default class ContextMenu extends React.Component {
     return (
       <Menu id='context-menu'>
         <Item onClick={this.handleMove}><IconFont className="share icon"/>Déplacer</Item>
+        <Item onClick={this.handleShowHistory}><IconFont className="history icon"/>Voir les versions</Item>
         <Separator />
         <Item onClick={this.handleRename}><IconFont className="pencil alternate icon"/>Renommer</Item>
         <Item onClick={this.handleDelete}><IconFont className="trash alternate icon"/>Supprimer</Item>

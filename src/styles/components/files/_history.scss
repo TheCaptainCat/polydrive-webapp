@@ -1,0 +1,16 @@
+.modal-history {
+  .history-table-row {
+    position: relative;
+
+    .history-table-row-icons {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+
+      .icon {
+        margin-left: 10px;
+        cursor: pointer;
+      }
+    }
+  }
+}
