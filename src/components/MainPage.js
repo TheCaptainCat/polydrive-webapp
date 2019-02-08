@@ -5,16 +5,16 @@ import {Button, Confirm, Container, Grid, Icon, Segment, Table} from 'semantic-u
 import 'moment-timezone';
 import { performFetch } from "../scripts/FetchService";
 import Navbar from './Navbar';
-import TableRow from './TableRow';
-import FoldersBreadcrumb from './FoldersBreadcrumb';
+import TableRow from './Files/TableRow';
+import FoldersBreadcrumb from './Files/FoldersBreadcrumb';
 import BreadcrumbSection from '../scripts/BreadcrumbSection'
-import ImageViewer from './ImageViewer';
+import ImageViewer from './Files/ImageViewer';
 import ContextMenu from "./ContextMenu";
-import ModalTreeview from "./ModalTreeview";
-import ModalTextInput from "./ModalTextInput";
+import ModalTreeview from "./Modals/ModalTreeview";
+import ModalTextInput from "./Modals/ModalTextInput";
 import LoadingScreen from "./LoadingScreen";
-import EmptyTableRow from "./EmptyTableRow";
-import ModalDragDrop from "./ModalDragDrop";
+import EmptyTableRow from "./Files/EmptyTableRow";
+import ModalDragDrop from "./Modals/ModalDragDrop";
 
 
 export default class MainPage extends React.Component {

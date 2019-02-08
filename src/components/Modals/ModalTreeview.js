@@ -3,7 +3,7 @@ import {Button, Header, Icon, Image, Modal} from "semantic-ui-react";
 import CheckboxTree from 'react-checkbox-tree';
 import 'react-checkbox-tree/lib/react-checkbox-tree.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { performFetch } from "../scripts/FetchService";
+import { performFetch } from "../../scripts/FetchService";
 import { faCheckSquare, faCoffee, faSquare, faChevronRight, faChevronDown, faPlusSquare, faMinusSquare, faFolder, faFile } from '@fortawesome/fontawesome-free-solid';
 
 export default class ModalTreeview extends React.Component {

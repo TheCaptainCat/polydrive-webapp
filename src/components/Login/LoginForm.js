@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Button, Input, Message, Form } from 'semantic-ui-react';
-import { performFetch } from "../scripts/FetchService";
+import { performFetch } from "../../scripts/FetchService";
 
 export default class LoginForm extends React.Component {
   constructor(props) {
