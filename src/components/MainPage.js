@@ -23,7 +23,22 @@ export default class MainPage extends React.Component {
 
     const uppy = Uppy({
       meta: { type: 'avatar' },
-      autoProceed: false
+      autoProceed: false,
+      onBeforeUpload: (files) => {
+        const updatedFiles = Object.assign({}, files);
+        Object.keys(updatedFiles).forEach(fileId => {
+          let file = updatedFiles[fileId];
+          if (file.existing) {
+            if (file.createNew) {
+              file.name = 'Copie de ' + file.name;
+            } else {
+              console.log("fileId", file.originalFileId);
+              uppy.setFileMeta(fileId, { replace_id: file.originalFileId })
+            }
+          }
+        });
+        return updatedFiles;
+      }
     });
 
     uppy.on('complete', (result) => {
@@ -240,11 +255,19 @@ export default class MainPage extends React.Component {
     this.hideTextInputModal();
   };
 
+  handleConfirmDrop = () => {
+    this.hideDropModal();
+  };
+
   handleCancelDrop = () => {
+    this.hideDropModal();
+  };
+
+  hideDropModal() {
     this.setState(() => ({
       showDropModal: false
     }));
-  };
+  }
 
   handleDrag = () => {
     this.setState(() => ({
@@ -302,6 +325,7 @@ export default class MainPage extends React.Component {
         <ModalDragDrop
           showModal={this.state.showDropModal}
           handleCancelDrop={this.handleCancelDrop}
+          handleConfirmDrop={this.handleConfirmDrop}
           dropComponent={this.state.uppy}
           files={this.state.files}
         />

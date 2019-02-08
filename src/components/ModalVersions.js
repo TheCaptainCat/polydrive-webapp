@@ -26,6 +26,14 @@ export default class ModalVersions extends React.Component {
     this.setState(() => ({checkboxes}))
   };
 
+  handleOnClickOk = () => {
+    let files = [...this.props.files];
+    for (let i = 0; i < this.state.checkboxes.length; i++) {
+      files[i].createNew = this.state.checkboxes[i];
+    }
+    this.props.onOk(files);
+  };
+
   render() {
     return (
       <Modal
@@ -40,23 +48,25 @@ export default class ModalVersions extends React.Component {
             sous forme de fichiers séparés ?</p>
           <List divided relaxed>
             {
-              this.props.files.filter(f => f.existing).map((item, i) =>
-                <List.Item key={i}>
-                  <List.Content>
-                    <Checkbox
-                      toggle
-                      label={item.name}
-                      checked={this.state.checkboxes[i]}
-                      onChange={(e) => this.handleCheckboxChange(e, i)}
-                    />
-                  </List.Content>
-                </List.Item>
+              this.props.files.map((item, i) =>
+                item.existing && (
+                  <List.Item key={i}>
+                    <List.Content>
+                      <Checkbox
+                        toggle
+                        label={item.name}
+                        checked={this.state.checkboxes[i]}
+                        onChange={(e) => this.handleCheckboxChange(e, i)}
+                      />
+                    </List.Content>
+                  </List.Item>
+                )
               )
             }
           </List>
         </Modal.Content>
         <Modal.Actions>
-          <Button icon='check' content='Valider' onClick={() => {this.props.onOk(this.state.checkboxes)}} />
+          <Button icon='check' content='Valider' onClick={this.handleOnClickOk} />
         </Modal.Actions>
       </Modal>
     )
