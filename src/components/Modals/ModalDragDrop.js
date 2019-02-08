@@ -16,21 +16,27 @@ export default class ModalDragDrop extends React.Component {
   }
 
   handleClickProceed = () => {
+    let someFilesAlreadyExists = false;
     let files = [];
     this.props.dropComponent.getFiles().map((fileDropped) => {
       let file = fileDropped;
       let fileName = this.removeExtension(fileDropped.name);
       file.existing = !!this.props.files.find(f => f.name === fileName);
       if (file.existing) {
+        someFilesAlreadyExists = true;
         file.originalFileId = this.props.files.find(f => f.name === fileName).id;
       }
       files.push(file);
     });
-    console.log(files);
-    this.setState(() => ({
-      files: files,
-      openModalVersions: true
-    }));
+    if (someFilesAlreadyExists) {
+      this.setState(() => ({
+        files: files,
+        openModalVersions: true
+      }));
+    } else {
+      this.props.dropComponent.upload();
+      this.props.handleConfirmDrop();
+    }
   };
 
   removeExtension(filename) {
