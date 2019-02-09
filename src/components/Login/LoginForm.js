@@ -24,6 +24,7 @@ export default class LoginForm extends React.Component {
       password: e.target.elements.password.value,
     });
 
+    localStorage.setItem('username', e.target.elements.username.value);
     performFetch(url + '/login', 'POST', true, () => {
       this.setState(() => {
         return {
@@ -51,6 +52,9 @@ export default class LoginForm extends React.Component {
   render() {
     return (
       <div className="form-login">
+        <div className="polydrive-logo-holder">
+          <img src="images/polydrive-icon.png" alt=""/>
+        </div>
         {
           this.state.error &&
           (
@@ -63,7 +67,14 @@ export default class LoginForm extends React.Component {
         <Form onSubmit={this.handleFormSubmit} className="login-form">
           <Form.Field>
             <label>Nom d'utilisateur</label>
-            <Input fluid focus placeholder="Nom d'utilisateur" name="username" required/>
+            <Input
+              fluid
+              focus
+              placeholder="Nom d'utilisateur"
+              name="username"
+              defaultValue={localStorage.getItem('username')}
+              required
+            />
           </Form.Field>
 
           <Form.Field>

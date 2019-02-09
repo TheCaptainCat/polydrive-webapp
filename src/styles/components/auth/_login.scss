@@ -14,11 +14,18 @@
     max-width: 500px;
     width: 100%;
     background-color: #fff;
-    padding: 40px 10px;
     border: 1px solid #b3b3b3;
-    padding-left: 30px;
-    padding-right: 30px;
+    padding: 20px 30px;
     margin: 0 20px;
+
+    .polydrive-logo-holder {
+      width: 100%;
+      text-align: center;
+
+      img {
+        width: 100px;
+      }
+    }
 
     label {
       font-weight: bold;
