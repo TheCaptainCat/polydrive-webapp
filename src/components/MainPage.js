@@ -285,10 +285,21 @@ export default class MainPage extends React.Component {
   };
 
   handleCancelShowHistory = () => {
+    this.hideModalHistory();
+  };
+
+  hideModalHistory() {
     this.setState(() => ({
       showModalHistory: false,
       idOfItemToHandle: 0
     }));
+  }
+
+  handleConfirmDeleteVersion = (fileId, versionId) => {
+    performFetch(`http://localhost:5000/res/${fileId}/${versionId}`, 'DELETE', true, () => {
+      this.props.history.push('/login');
+    }).then(() => {this.refreshData();});
+    this.hideModalHistory();
   };
 
   render() {
@@ -378,8 +389,9 @@ export default class MainPage extends React.Component {
         />
         <ModalHistory
           showModal={this.state.showModalHistory}
+          handleConfirmDeleteVersion={this.handleConfirmDeleteVersion}
           handleCancelShowHistory={this.handleCancelShowHistory}
-          file={this.state.files.find(f => f.id === this.state.idOfItemToHandle)}
+          file={this.state.showModalHistory && this.state.files.find(f => f.id === this.state.idOfItemToHandle)}
         />
         <LoadingScreen
           showLoading={this.state.showLoading}
