@@ -18,7 +18,7 @@ export default class ModalTreeview extends React.Component {
   }
 
   componentDidMount() {
-    performFetch('http://localhost:5000/res', 'GET', true, () => {
+    performFetch(`${this.props.url}/res`, 'GET', true, () => {
       this.props.onAuthenticationFailed()
     }).then(res => {
       let folders = [];

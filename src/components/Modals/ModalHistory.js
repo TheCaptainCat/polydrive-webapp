@@ -14,7 +14,7 @@ export default class ModalHistory extends React.Component {
   }
 
   handleOnClickDownload = (e, index) => {
-    window.open('http://localhost:5000/res/' + this.props.file.id + '/' + index + '/download')
+    window.open(`${this.props.url}/res/${this.props.file.id}/${index}/download`)
   };
 
   handleOnClickDelete = (e, index) => {

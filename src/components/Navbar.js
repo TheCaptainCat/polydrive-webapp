@@ -5,7 +5,7 @@ import {performFetch} from "../scripts/FetchService";
 export default class Navbar extends React.Component {
 
   handleClickLogout = () => {
-    performFetch('http://localhost:5000/logout', 'GET', true, () => {this.props.redirectAfterLogOut()})
+    performFetch(`${this.props.url}/logout`, 'GET', true, () => {this.props.redirectAfterLogOut()})
       .then(() => {
         this.props.redirectAfterLogOut();
       });

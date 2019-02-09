@@ -46,9 +46,11 @@ export default class MainPage extends React.Component {
       uppy.reset();
     });
 
+    const url = localStorage.getItem('url');
     this.state = {
       files: [],
       uppy: uppy,
+      url: url ? url : 'http://localhost:5000',
       parent_id: 0,
       breadcrumbSections: new BreadcrumbSection(),
       fileToDisplay: '',
@@ -77,7 +79,7 @@ export default class MainPage extends React.Component {
 
   getFileFromFolder = (parent_id) => {
     this.setState(() => ({showLoading: true}));
-    performFetch('http://localhost:5000/res' + (parent_id ? '/' + parent_id : ''), 'GET', true, () => {
+    performFetch(this.state.url + '/res' + (parent_id ? '/' + parent_id : ''), 'GET', true, () => {
       this.redirectToLogin();
     }).then(res => {
       let files = [];
@@ -131,7 +133,7 @@ export default class MainPage extends React.Component {
   handleOnClickImage = (id, name) => {
     this.setState(() => {
       return {
-        fileToDisplay: 'http://localhost:5000/res/' + id + '/download'
+        fileToDisplay: this.state.url + '/res/' + id + '/download'
       }
     })
   };
@@ -146,7 +148,7 @@ export default class MainPage extends React.Component {
       this.state.uppy.removePlugin(plugin);
     }
     this.state.uppy.use(XHRUpload, {
-      endpoint: 'http://localhost:5000/res/upload' + (
+      endpoint: this.state.url + '/res/upload' + (
         folder_id ? '/' + folder_id : ''
       ),
       fieldName: 'file',
@@ -169,7 +171,7 @@ export default class MainPage extends React.Component {
   };
 
   handleConfirmDelete = () => {
-    performFetch('http://localhost:5000/res/' + this.state.idOfItemToHandle, 'DELETE', true, () => {
+    performFetch(`${this.state.url}/res/${this.state.idOfItemToHandle}`, 'DELETE', true, () => {
       this.props.history.push('/login');
     }).then(() => {this.refreshData(); });
     this.setState(() => ({
@@ -182,7 +184,7 @@ export default class MainPage extends React.Component {
     let body = JSON.stringify({
       parent_id: parentFolderId === '-1' ? null : parentFolderId
     });
-    performFetch(`http://localhost:5000/res/${this.state.idOfItemToHandle}`, 'PUT', true, () => {
+    performFetch(`${this.state.url}/res/${this.state.idOfItemToHandle}`, 'PUT', true, () => {
       this.props.history.push('/login');
     }, body).then(() => {this.refreshData();});
 
@@ -218,7 +220,7 @@ export default class MainPage extends React.Component {
       name: name
     });
 
-    performFetch(`http://localhost:5000/res/${this.state.idOfItemToHandle}`, 'PUT', true, () => {
+    performFetch(`${this.state.url}/res/${this.state.idOfItemToHandle}`, 'PUT', true, () => {
       this.props.history.push('/login');
     }, body).then(() => {this.refreshData();});
 
@@ -250,7 +252,7 @@ export default class MainPage extends React.Component {
       name: name
     });
 
-    performFetch('http://localhost:5000/res', 'POST', true, () => {
+    performFetch(`${this.state.url}/res`, 'POST', true, () => {
       this.props.history.push('/login');
     }, body).then(() => {this.refreshData();});
 
@@ -296,7 +298,7 @@ export default class MainPage extends React.Component {
   }
 
   handleConfirmDeleteVersion = (fileId, versionId) => {
-    performFetch(`http://localhost:5000/res/${fileId}/${versionId}`, 'DELETE', true, () => {
+    performFetch(`${this.state.url}/res/${fileId}/${versionId}`, 'DELETE', true, () => {
       this.props.history.push('/login');
     }).then(() => {this.refreshData();});
     this.hideModalHistory();
@@ -305,7 +307,10 @@ export default class MainPage extends React.Component {
   render() {
     return (
       <div className="main-page" onDragEnter={this.handleDrag}>
-        <Navbar redirectAfterLogOut={(e) => this.redirectToLogin(e)}/>
+        <Navbar
+          url={this.state.url}
+          redirectAfterLogOut={(e) => this.redirectToLogin(e)}
+        />
         <Container>
           <Segment textAlign='right' className='new-folder-segment'>
             <Button icon labelPosition='right' primary onClick={this.handleCreateFolderClick}>
@@ -335,6 +340,7 @@ export default class MainPage extends React.Component {
                       item={item}
                       onClickFolder={this.handleOnClickFolder}
                       onClickImage={this.handleOnClickImage}
+                      url={this.state.url}
                     />
                   )
                 }
@@ -380,6 +386,7 @@ export default class MainPage extends React.Component {
           handleConfirmMove={this.handleConfirmMove}
           handleCancelMove={this.handleCancelMove}
           onAuthenticationFailed={this.redirectToLogin}
+          url={this.state.url}
         />
         <ModalTextInput
           showModal={this.state.showModalTextInput}
@@ -392,6 +399,7 @@ export default class MainPage extends React.Component {
           handleConfirmDeleteVersion={this.handleConfirmDeleteVersion}
           handleCancelShowHistory={this.handleCancelShowHistory}
           file={this.state.showModalHistory && this.state.files.find(f => f.id === this.state.idOfItemToHandle)}
+          url={this.state.url}
         />
         <LoadingScreen
           showLoading={this.state.showLoading}
