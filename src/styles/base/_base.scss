@@ -1,2 +1,9 @@
-$theme-blue: #5294E2;
+$theme-blue: #1D1938;
+.ui.button.primary {
+  background-color: $theme-blue;
+
+  &:hover {
+    background-color: lighten($theme-blue, 10%);
+  }
+}
 $spinner-holder-size: 60px;
