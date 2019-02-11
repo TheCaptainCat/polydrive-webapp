@@ -52,7 +52,7 @@ export default class ModalHistory extends React.Component {
                   <Table singleLine>
                     <Table.Body>
                       {
-                        this.props.file.versions.map((item, i) => (
+                        this.props.file.versions && this.props.file.versions.map((item, i) => (
                           <Table.Row key={i}>
                             <Table.Cell className="history-table-row">
                               <Moment format='DD/MM/YYYY HH:mm:ss'>
